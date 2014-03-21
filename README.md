@@ -10,7 +10,7 @@ Kopress is a express like webframework build on top of koa.
  Create the app:
 
     $ npm install -g kopress-generator
-    $ express /tmp/foo && cd /tmp/foo
+    $ kopress /tmp/foo && cd /tmp/foo
 
  Install dependencies:
 
