@@ -1,13 +1,10 @@
 #!/usr/bin/env node
-
 var program = require('commander');
 var mkdirp = require('mkdirp');
 var os = require('os');
 var fs = require('fs');
 var path = require('path');
-
 var pkg = require('../package.json');
-
 var version = pkg.version;
 
 // CLI
@@ -21,9 +18,7 @@ program
 var destination_path = program.args.shift() || '.';
 
 // end-of-line code
-var eol = os.EOL
-
-var app = fs.readFileSync(__dirname + '/../templates/js/app.js', 'utf-8');
+// var eol = os.EOL
 
 // Generate application
 (function createApplication(path) {
@@ -50,7 +45,6 @@ var app = fs.readFileSync(__dirname + '/../templates/js/app.js', 'utf-8');
  * @param {String} path
  */
 function createApplicationAt(path) {
-  console.log();
   process.on('exit', function(){
     console.log();
     console.log('   install dependencies:');
@@ -62,20 +56,28 @@ function createApplicationAt(path) {
   });
 
   mkdir(path, function(){
-    mkdir(path + '/public');
+    mkdir(path + '/view', function () {
+      copy_template('view/index.html', path + '/view/index.html');
+      copy_template('view/layout.html', path + '/view/layout.html');
+    });
 
-    // package.json
-    var pkg = {
-        name: 'application-name'
-      , version: '0.0.1'
-      , private: true
-      , dependencies: {
-          'koa': '*'
-      }
-    }
+    mkdir(path + '/routes', function () {
+      copy_template('routes/index.js', path + '/routes/index.js');
+    });
 
-    write(path + '/package.json', JSON.stringify(pkg, null, 2));
-    write(path + '/app.js', app);
+    mkdir(path + '/public', function () {
+      mkdir(path + '/public/css', function () {
+        copy_template('css/style.css', path + '/public/css/style.css');
+      });
+      mkdir(path + '/public/js');
+      mkdir(path + '/public/img');
+    });
+
+    copy_template('js/router.js', path + '/router.js');
+    copy_template('js/kopress.js', path + '/kopress.js');
+    copy_template('js/app.js', path + '/app.js');
+    copy_template('js/package.json', path + '/package.json');
+
   });
 }
 

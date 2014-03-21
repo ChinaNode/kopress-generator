@@ -1,7 +1,8 @@
 {
   "name": "kopress-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Kopress application generator",
+  "main": "bin/kopress",
   "bin": {
     "kopress": "./bin/kopress"
   },
