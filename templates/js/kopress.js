@@ -41,7 +41,7 @@ function kopress () {
   app.use(router(app));
   render(app, {
     root: path.join(__dirname, 'view'),
-    layout: 'template',
+    layout: 'layout',
     viewExt: 'html',
     cache: false,
     debug: true

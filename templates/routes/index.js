@@ -5,6 +5,6 @@ module.exports = {
     },
 
     index: function * () {
-        yield this.render('index');
+        yield this.render('index', {});
     }
 }
