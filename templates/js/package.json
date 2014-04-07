@@ -1,7 +1,6 @@
 {
   "name": "application-name",
   "version": "0.0.1",
-  "main": "app.js",
   "private": true,
   "dependencies": {
     "co": "~3.0.4",
@@ -11,7 +10,6 @@
     "koa-compose": "^2.2.0",
     "koa-compress": "^1.0.3",
     "koa-csrf": "^1.0.1",
-    "koa-ejs": "0.0.2",
     "koa-error": "^1.1.1",
     "koa-favi": "^0.1.0",
     "koa-jsonp": "0.0.3",
@@ -22,10 +20,8 @@
     "koa-send": "^1.2.3",
     "koa-session": "^2.0.0",
     "koa-static": "^1.4.3",
+    "koa-views": "^1.2.1",
     "koa_body": "0.0.1",
     "qs": "^0.6.6"
-  },
-  "engine": {
-    "node": ">= 0.11.09"
   }
 }

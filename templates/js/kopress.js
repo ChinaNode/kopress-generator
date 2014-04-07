@@ -10,10 +10,9 @@ var logger = require('koa-logger');
 var compress = require('koa-compress');
 var send = require('koa-send');
 var favicon = require('koa-favi');
-var kejs = require('koa-ejs');
 var qs = require('koa-qs');
 var path = require('path');
-var render = require('koa-ejs');
+var views = require('koa-views');
 var bodyParser = require('koa-bodyparser');
 var koa_response_time = require('koa-response-time');
 var errorhandler = require('koa-error');
@@ -38,15 +37,9 @@ function kopress () {
 
   qs(app);
   app.use(bodyParser({limit: '512kb'}));
+  app.use(views('./view', '{views}', {}));
   app.use(router(app));
-  render(app, {
-    root: path.join(__dirname, 'view'),
-    layout: 'layout',
-    viewExt: 'html',
-    cache: false,
-    debug: true
-  });
-
+  
   app.use(compress({
     threshold: 2048,
     flush: require('zlib').Z_SYNC_FLUSH

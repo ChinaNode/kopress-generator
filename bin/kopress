@@ -11,6 +11,7 @@ var version = pkg.version;
 program
   .version(version)
   .usage('[options] [dir]')
+  .option('-j, --jade', 'add jade engine support (defaults to ejs)')
   .option('-f, --force', 'force on non-empty directory')
   .parse(process.argv);
 
@@ -19,6 +20,9 @@ var destination_path = program.args.shift() || '.';
 
 // end-of-line code
 // var eol = os.EOL
+
+program.template = 'ejs';
+if (program.jade) program.template = 'jade';
 
 // Generate application
 (function createApplication(path) {
@@ -57,8 +61,17 @@ function createApplicationAt(path) {
 
   mkdir(path, function(){
     mkdir(path + '/view', function () {
-      copy_template('view/index.html', path + '/view/index.html');
-      copy_template('view/layout.html', path + '/view/layout.html');
+      
+      switch (program.template) {
+        case 'ejs':
+          copy_template('ejs/index.ejs', path + '/view/index.ejs');
+          break;
+        case 'jade':
+          copy_template('jade/index.jade', path + '/view/index.jade');
+          copy_template('jade/layout.jade', path + '/view/layout.jade');
+          break;
+      }
+
     });
 
     mkdir(path + '/routes', function () {
@@ -74,7 +87,10 @@ function createApplicationAt(path) {
     });
 
     copy_template('js/router.js', path + '/router.js');
-    copy_template('js/kopress.js', path + '/kopress.js');
+
+    var kopress = fs.readFileSync(__dirname + '/../templates/js/kopress.js', 'utf-8');
+    write(path + '/kopress.js', kopress.replace('{views}', program.template));
+
     copy_template('js/app.js', path + '/app.js');
     copy_template('js/package.json', path + '/package.json');
 

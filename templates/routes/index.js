@@ -5,6 +5,10 @@ module.exports = {
     },
 
     index: function * () {
-        yield this.render('index', {});
+        this.locals = {
+            session: this.session,
+            title: 'Kopress'
+        };
+        yield this.render('index', {name: 'koress index page'});
     }
 }
